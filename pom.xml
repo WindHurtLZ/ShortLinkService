@@ -7,6 +7,12 @@
     <groupId>org.myproject.shortlink</groupId>
     <artifactId>ShortLink-ALL</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>Admin</module>
+        <module>Project</module>
+        <module>Gateway</module>
+    </modules>
 
     <properties>
         <java.version>17</java.version>

@@ -30,4 +30,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         BeanUtils.copyProperties(userDO, result);
         return result;
     }
+
+    @Override
+    public Boolean hasUsername(String username) {
+        return null;
+    }
 }

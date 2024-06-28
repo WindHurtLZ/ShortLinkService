@@ -1,8 +1,10 @@
 package org.myproject.shortlink.admin.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
 import org.myproject.shortlink.admin.common.convention.result.Result;
 import org.myproject.shortlink.admin.common.convention.result.Results;
+import org.myproject.shortlink.admin.dto.resp.UserActualRespDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 import org.myproject.shortlink.admin.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +21,18 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * Query user information by username
+     * Query user desensitized information by username
      */
     @GetMapping("/api/shortlink/v1/user/{username}")
     public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
         return Results.success(userService.getUserByUsername(username));
+    }
+
+    /**
+     * Query user actual information by username
+     */
+    @GetMapping("/api/shortlink/v1/actual/user/{username}")
+    public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
+        return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
     }
 }

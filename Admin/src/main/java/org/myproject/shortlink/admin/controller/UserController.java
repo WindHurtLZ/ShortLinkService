@@ -4,13 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
 import org.myproject.shortlink.admin.common.convention.result.Result;
 import org.myproject.shortlink.admin.common.convention.result.Results;
+import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.myproject.shortlink.admin.dto.resp.UserActualRespDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 import org.myproject.shortlink.admin.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * User Management Layer
@@ -24,7 +22,7 @@ public class UserController {
     /**
      * Query user desensitized information by username
      */
-    @GetMapping("/api/shortlink/v1/user/{username}")
+    @GetMapping("/api/short-link/v1/user/{username}")
     public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
         return Results.success(userService.getUserByUsername(username));
     }
@@ -32,7 +30,7 @@ public class UserController {
     /**
      * Query user actual information by username
      */
-    @GetMapping("/api/shortlink/v1/actual/user/{username}")
+    @GetMapping("/api/short-link/v1/actual/user/{username}")
     public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
         return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
     }
@@ -40,8 +38,14 @@ public class UserController {
     /**
      * Check if the username exist
      */
-    @GetMapping("/api/shortlink/v1/user/has-username")
+    @GetMapping("/api/short-link/v1/user/has-username")
     public Result<Boolean> hasUsername(@RequestParam("username") String username) {
         return Results.success(userService.hasUsername(username));
+    }
+
+    @PostMapping("/api/short-link/v1/user")
+    public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
+        userService.register(requestParam);
+        return Results.success();
     }
 }

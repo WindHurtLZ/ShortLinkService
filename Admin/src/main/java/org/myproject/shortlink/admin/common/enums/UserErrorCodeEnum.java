@@ -5,7 +5,11 @@ import org.myproject.shortlink.admin.common.convention.errorcode.IErrorCode;
 public enum UserErrorCodeEnum implements IErrorCode {
 
     USER_NOT_EXIST("B00200", "User does not exist"),
-    USER_ALREADY_EXIST("B00201", "User already exist");
+
+    USER_ALREADY_EXIST("B00210", "User already exist"),
+    USERNAME_ALREADY_EXIST("B00211", "Username already exist"),
+
+    USER_SAVE_ERROR("B00220", "User record insert error");
 
 
     private final String code;

@@ -12,9 +12,12 @@ import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 import org.myproject.shortlink.admin.service.UserService;
 import org.redisson.api.RBloomFilter;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import static org.myproject.shortlink.admin.common.constants.RedisCacheConstant.LOCK_USER_REGISTER_KEY;
 import static org.myproject.shortlink.admin.common.enums.UserErrorCodeEnum.*;
 
 /**
@@ -25,6 +28,7 @@ import static org.myproject.shortlink.admin.common.enums.UserErrorCodeEnum.*;
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
     private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
+    private final RedissonClient redissonClient;
 
     @Override
     public UserRespDTO getUserByUsername(String username) {
@@ -49,10 +53,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (hasUsername(requestParam.getUsername())) {
             throw new ClientException(USERNAME_ALREADY_EXIST);
         }
-        int insert = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
-        if (insert < 1) {
-            throw new ClientException(USER_SAVE_ERROR);
+        RLock lock = redissonClient.getLock(LOCK_USER_REGISTER_KEY + requestParam.getUsername());
+        try {
+            if (lock.tryLock()) {
+                int insert = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
+                if (insert < 1) {
+                    throw new ClientException(USER_SAVE_ERROR);
+                }
+                userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
+            } else {
+                throw new ClientException(USERNAME_ALREADY_EXIST);
+            }
+        } finally {
+            lock.unlock();
         }
-        userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
     }
 }

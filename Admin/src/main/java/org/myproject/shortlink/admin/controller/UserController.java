@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.myproject.shortlink.admin.common.convention.result.Result;
 import org.myproject.shortlink.admin.common.convention.result.Results;
 import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
+import org.myproject.shortlink.admin.dto.req.UserUpdateReqDTO;
 import org.myproject.shortlink.admin.dto.resp.UserActualRespDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 import org.myproject.shortlink.admin.service.UserService;
@@ -43,9 +44,21 @@ public class UserController {
         return Results.success(userService.hasUsername(username));
     }
 
+    /**
+     * User Register
+     */
     @PostMapping("/api/short-link/v1/user")
     public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
         userService.register(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * User Update
+     */
+    @PutMapping("/api/short-link/v1/user")
+    public Result<Void> update(@RequestBody UserUpdateReqDTO requestParam) {
+        userService.update(requestParam);
         return Results.success();
     }
 }

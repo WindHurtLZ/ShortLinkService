@@ -3,6 +3,7 @@ package org.myproject.shortlink.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.myproject.shortlink.admin.dao.entity.UserDO;
 import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
+import org.myproject.shortlink.admin.dto.req.UserUpdateReqDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 
 /**
@@ -27,7 +28,13 @@ public interface UserService extends IService<UserDO> {
 
     /**
      * Register User
-     * @param requestParam User Request DTO
+     * @param requestParam User Register DTO
      */
     void register(UserRegisterReqDTO requestParam);
+
+    /**
+     * Update User
+     * @param requestParam User Update DTO
+     */
+    void update(UserUpdateReqDTO requestParam);
 }

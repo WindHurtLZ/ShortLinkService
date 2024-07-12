@@ -2,6 +2,7 @@ package org.myproject.shortlink.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.myproject.shortlink.admin.common.convention.exception.ClientException
 import org.myproject.shortlink.admin.dao.entity.UserDO;
 import org.myproject.shortlink.admin.dao.mapper.UserMapper;
 import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
+import org.myproject.shortlink.admin.dto.req.UserUpdateReqDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 import org.myproject.shortlink.admin.service.UserService;
 import org.redisson.api.RBloomFilter;
@@ -66,6 +68,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             }
         } finally {
             lock.unlock();
+        }
+    }
+
+    @Override
+    public void update(UserUpdateReqDTO requestParam) {
+        // TODO: Validate Current User is login user or not
+        LambdaUpdateWrapper<UserDO> updateWrapper = Wrappers.lambdaUpdate(UserDO.class)
+                .eq(UserDO::getUsername, requestParam.getUsername());
+        int updateCount = baseMapper.update(BeanUtil.toBean(requestParam, UserDO.class), updateWrapper);
+        if (updateCount == 0) {
+            throw new ClientException("No records were updated. The username might not exist.");
         }
     }
 }

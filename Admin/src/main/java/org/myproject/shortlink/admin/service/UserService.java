@@ -2,8 +2,10 @@ package org.myproject.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.myproject.shortlink.admin.dao.entity.UserDO;
+import org.myproject.shortlink.admin.dto.req.UserLoginReqDTO;
 import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.myproject.shortlink.admin.dto.req.UserUpdateReqDTO;
+import org.myproject.shortlink.admin.dto.resp.UserLoginRespDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 
 /**
@@ -20,7 +22,7 @@ public interface UserService extends IService<UserDO> {
     UserRespDTO getUserByUsername(String username);
 
     /**
-     * Query if Username Exist
+     * Check if Username Exist
      * @param username Username
      * @return Return ture if user exist
      */
@@ -37,4 +39,18 @@ public interface UserService extends IService<UserDO> {
      * @param requestParam User Update DTO
      */
     void update(UserUpdateReqDTO requestParam);
+
+    /**
+     * User Login
+     * @param requestParam User Login Info DTO
+     * @return Token DTO
+     */
+    UserLoginRespDTO login(UserLoginReqDTO requestParam);
+
+    /**
+     * Check if user logon
+     * @param token login token
+     * @return login status
+     */
+    Boolean hasLogin(String username, String token);
 }

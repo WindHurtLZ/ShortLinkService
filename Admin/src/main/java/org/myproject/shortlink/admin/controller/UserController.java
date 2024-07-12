@@ -4,9 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
 import org.myproject.shortlink.admin.common.convention.result.Result;
 import org.myproject.shortlink.admin.common.convention.result.Results;
+import org.myproject.shortlink.admin.dto.req.UserLoginReqDTO;
 import org.myproject.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.myproject.shortlink.admin.dto.req.UserUpdateReqDTO;
 import org.myproject.shortlink.admin.dto.resp.UserActualRespDTO;
+import org.myproject.shortlink.admin.dto.resp.UserLoginRespDTO;
 import org.myproject.shortlink.admin.dto.resp.UserRespDTO;
 import org.myproject.shortlink.admin.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -60,5 +62,21 @@ public class UserController {
     public Result<Void> update(@RequestBody UserUpdateReqDTO requestParam) {
         userService.update(requestParam);
         return Results.success();
+    }
+
+    /**
+     * User Login
+     */
+    @PostMapping("/api/short-link/v1/user/login")
+    public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO requestParam) {
+        return Results.success(userService.login(requestParam));
+    }
+
+    /**
+     * Check if the user logon
+     */
+    @GetMapping("/api/short-link/v1/user/has-login")
+    public Result<Boolean> hasLogin(@RequestParam("username") String username, @RequestParam("token") String token) {
+        return Results.success(userService.hasLogin(username, token));
     }
 }

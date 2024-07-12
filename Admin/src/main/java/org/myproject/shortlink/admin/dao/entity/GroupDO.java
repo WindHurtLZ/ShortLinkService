@@ -1,16 +1,21 @@
 package org.myproject.shortlink.admin.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.NoArgsConstructor;
+import org.myproject.shortlink.admin.common.database.BaseDO;
 
 /**
  * Short-link Group Data Object
  */
 @TableName("t_group")
 @Data
-public class GroupDO {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class GroupDO extends BaseDO {
 
     /**
      * id
@@ -31,19 +36,4 @@ public class GroupDO {
      * username of group creator
      */
     private String username;
-
-    /**
-     * create_time
-     */
-    private Date createTime;
-
-    /**
-     * update_time
-     */
-    private Date updateTime;
-
-    /**
-     * del_flag
-     */
-    private Integer delFlag;
 }

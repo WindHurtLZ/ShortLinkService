@@ -2,6 +2,9 @@ package org.myproject.shortlink.admin.dto.req;
 
 import lombok.Data;
 
+/**
+ * User Register Request
+ */
 @Data
 public class UserRegisterReqDTO {
 

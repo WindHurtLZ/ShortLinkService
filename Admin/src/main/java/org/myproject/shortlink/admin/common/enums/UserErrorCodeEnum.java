@@ -12,7 +12,9 @@ public enum UserErrorCodeEnum implements IErrorCode {
     USER_SAVE_ERROR("B00220", "User record insert error"),
 
     USER_LOGIN_ERROR("B00230", "User Record Not Match"),
-    USER_ALREADY_LOGIN("B00231", "User Already Login");
+    USER_ALREADY_LOGIN("B00231", "User Already Login"),
+
+    USER_LOGOUT_ERROR("B00240", "User is not logged in");
 
     private final String code;
     private final String message;

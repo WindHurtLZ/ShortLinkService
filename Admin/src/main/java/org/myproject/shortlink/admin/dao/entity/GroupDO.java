@@ -36,4 +36,9 @@ public class GroupDO extends BaseDO {
      * username of group creator
      */
     private String username;
+
+    /**
+     * group custom sort order
+     */
+    private Integer sortOrder;
 }

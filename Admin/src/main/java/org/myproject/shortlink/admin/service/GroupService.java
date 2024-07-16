@@ -3,6 +3,7 @@ package org.myproject.shortlink.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.myproject.shortlink.admin.dao.entity.GroupDO;
 import org.myproject.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import org.myproject.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import org.myproject.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import org.myproject.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 
@@ -36,4 +37,10 @@ public interface GroupService extends IService<GroupDO> {
      * @param gid gid
      */
     void deleteGroup(String gid);
+
+    /**
+     * Sort group
+     * @param requestParam ShortLinkGroupSortReqDTO
+     */
+    void sortGroup(List<ShortLinkGroupSortReqDTO> requestParam);
 }

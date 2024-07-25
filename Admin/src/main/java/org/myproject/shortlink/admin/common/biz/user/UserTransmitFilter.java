@@ -21,7 +21,7 @@ public class UserTransmitFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String requestURI = request.getRequestURI();
-        if (!Objects.equals(requestURI, "/api/short-link/v1/user/login")) {
+        if (!Objects.equals(requestURI, "/api/short-link/admin/v1/user/login")) {
             String username = request.getHeader("username");
             String token = request.getHeader("token");
             Object userInfoJsonStr = stringRedisTemplate.opsForHash().get("login_" + username, token);
